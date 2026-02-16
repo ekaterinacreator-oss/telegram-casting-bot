@@ -1,15 +1,18 @@
+import os  
 import re
 import asyncio
 from telethon import TelegramClient, events
 from aiogram import Bot, Dispatcher
+from fastapi import FastAPI  # ← ДОБАВЬ
+import uvicorn              # ← ДОБАВЬ
 
 # ==== 1. НАСТРОЙКИ ====
 # Эти данные ты получишь на сайте my.telegram.org
-API_ID = int("29333521")
-API_HASH = "a628993ea695e1580829863dac9d99b9"
+API_ID = int(os.getenv("29333521")
+API_HASH = os.getenv("a628993ea695e1580829863dac9d99b9")
 
 # Твой bot token от BotFather:
-BOT_TOKEN = "8485398329:AAFN7xq37IAuh-mvdzC_XrYkdw_ICxGyYBc"
+BOT_TOKEN = s.getenv("8485398329:AAFN7xq37IAuh-mvdzC_XrYkdw_ICxGyYBc")
 
 # ID чата, куда бот будет отправлять подборки (твой Telegram ID):
 USER_ID = int("456496188")
@@ -100,7 +103,10 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 client = TelegramClient("bot", API_ID, API_HASH)
-
+app = FastAPI()  # ← ДОБАВЬ
+@app.get("/")                             # ← 2
+async def root():
+    return {"status": "ok"}               # ← 3
 
 # ==== 4. Функции для фильтрации ====
 
@@ -201,6 +207,10 @@ async def new_post(event):
 
 # ==== 6. ЗАПУСК ====
 async def main():
+    # Запуск HTTP заглушки для Render
+    config = uvicorn.Config(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    server = uvicorn.Server(config)
+    asyncio.create_task(server.serve())
     await client.start(bot_token=BOT_TOKEN)
     print("Бот запущен и слушает каналы...")
     await client.run_until_disconnected()
