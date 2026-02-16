@@ -99,7 +99,7 @@ BLOCK_WORDS = [
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-client = TelegramClient("bot", API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+client = TelegramClient("bot", API_ID, API_HASH)
 
 
 # ==== 4. Функции для фильтрации ====
@@ -201,7 +201,7 @@ async def new_post(event):
 
 # ==== 6. ЗАПУСК ====
 async def main():
-    await client.start()
+    await client.start(bot_token=BOT_TOKEN)
     print("Бот запущен и слушает каналы...")
     await client.run_until_disconnected()
 
