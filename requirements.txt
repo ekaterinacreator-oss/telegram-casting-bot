@@ -1,3 +1,4 @@
 telethon
 aiogram
-asyncio
+fastapi
+uvicorn[standard]
