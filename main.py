@@ -99,7 +99,7 @@ BLOCK_WORDS = [
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-client = TelegramClient("session", API_ID, API_HASH)
+client = TelegramClient("bot", API_ID, API_HASH)
 
 
 # ==== 4. Функции для фильтрации ====
